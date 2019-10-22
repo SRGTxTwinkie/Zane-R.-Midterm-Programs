@@ -79,6 +79,7 @@ def Add(number)
   else
     puts
     puts "Please put a number"
+    puts
   end
 
 end
