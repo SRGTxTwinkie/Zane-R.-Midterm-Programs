@@ -20,7 +20,7 @@ def Display(number)
 
   print "Tip amounts: \n"
   for i,j in amount
-    print j, ": " ,number * i , " \n"
+    print j, ": " ,(number * i).round(2) , " \n"
   end
 end
 
