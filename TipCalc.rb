@@ -1,13 +1,15 @@
 def Init
-
-  print "Please put the bill amount: "
-  num = gets.chomp
-  if num.to_i.to_s == num
-    num = num.to_i
-    Display(num)
-  else
-    print "Please put a number"
+  num = 0
+  until num != 0
+    print "Please put the bill amount: "
+    num = gets.to_i
+    if num == 0
+      print "Your bill amount can't be zero \n"
+      print "C'mon son \n"
+    end
   end
+  Display(num)
+
 end
 
 def Display(number)
