@@ -15,9 +15,6 @@ class Reciept ### Is a default class that just holds the current reciept
 
 end
 
-$currentReciept = Reciept.new(0,0)
-### I know it's a sin to use global variables
-### but I didn't want to pass currentReciept thru 5+ modules
 
 
 def Init ### Sets up the values
@@ -25,18 +22,18 @@ def Init ### Sets up the values
   puts
   puts
   puts
-
+  currentReciept = Reciept.new(0,0)
   itemPrice = ["1.00","1.50","1.00","0.50","2.00","2.50","1.50","2.00","0.50","0.10"]
   item = ["Fountain Drink", "Frozen Drink", "Candy Bars", "Chips", "Hamburger", "Cheeseburger", "Hot Dog", "Chili Dog", "Pop Corn","Pickle Juice Ice Cube"]
 
   menuItems = item.zip(itemPrice) ### Holds all the values of the menu, not including item number
 
-  Display(menuItems)
+  Display(menuItems,currentReciept)
 
 end
 
 
-def Display(menu) ### This is what puts the menu everytime, it also controls where you go when you make your choice
+def Display(menu,currentReciept) ### This is what puts the menu everytime, it also controls where you go when you make your choice
 
   choices = ["1","2","3","4","5","6","7","8","9","10"] ### This is all the things that the until loop will accept as valid
 
@@ -55,16 +52,16 @@ def Display(menu) ### This is what puts the menu everytime, it also controls whe
     item = gets.chomp
   end
   if item != "0" ### Looks for all but zero, becuase all the other choices do the same thing
-    Picker(menu, item)
-    Display(menu)
+    Picker(menu, item, currentReciept)
+    Display(menu, currentReciept)
   else
-    Ending()
+    Ending(currentReciept)
   end
 
 
 end
 
-def Picker(menu, item) ### This is what makes the receipt
+def Picker(menu, item, currentReciept) ### This is what makes the receipt
 =begin
   This function is crazy, it took me a long time
   to figure out how to make this, but it works.
@@ -81,14 +78,14 @@ def Picker(menu, item) ### This is what makes the receipt
   x = 0
   for i,j in menu
     if x == item.to_i - 1
-      $currentReciept.AddTotal(j.to_f)
-      $currentReciept.AppendReciept(i)
+      currentReciept.AddTotal(j.to_f)
+      currentReciept.AppendReciept(i)
     end
     x += 1
   end
 end
 
-def Ending() ### This just makes the receipt
+def Ending(currentReciept) ### This just makes the receipt
 
   puts
   print ":SALES RECEIPT: \n"
@@ -96,14 +93,14 @@ def Ending() ### This just makes the receipt
   print "Your items are: \n"
 
   x = 1
-  for i in $currentReciept.receipt ### Lists out items you ordered
+  for i in currentReciept.receipt ### Lists out items you ordered
      print "#{x}:) - #{i} \n"
      x += 1
   end
 
-  print "Subtotal: $",  $currentReciept.itemTotal.round(2), " " , "\n" ### Total before tax
-  print "Tax: $", $currentReciept.itemTotal * 0.06, "\n" ### Calculates sales tax
-  print "Total: $", ($currentReciept.itemTotal.round(2) + ($currentReciept.itemTotal * 0.06)).round(2)
+  print "Subtotal: $",  currentReciept.itemTotal.round(2), " " , "\n" ### Total before tax
+  print "Tax: $", currentReciept.itemTotal * 0.06, "\n" ### Calculates sales tax
+  print "Total: $", (currentReciept.itemTotal.round(2) + (currentReciept.itemTotal * 0.06)).round(2)
   ### Line 95 Adds the tax and the subtotal, they arn't variables, because it was faster to just type them out
 
 end
