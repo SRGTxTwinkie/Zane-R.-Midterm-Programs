@@ -1,9 +1,18 @@
 class Reciept ### Is a default class that just holds the current reciept
-  attr_accessor :receipt, :itemTotal
+  attr_reader :receipt, :itemTotal
   def initialize(receipt, itemTotal)
     @receipt = []
     @itemTotal = itemTotal
   end
+
+  def AppendReciept(item)
+    @receipt.push(item)
+  end
+
+  def AddTotal(amount)
+    @itemTotal += amount
+  end
+
 end
 
 $currentReciept = Reciept.new(0,0)
@@ -65,15 +74,15 @@ def Picker(menu, item) ### This is what makes the receipt
   If they are the same, it takes the value of j and i and puts
   them in the Class.
 
-  I originally tried to use index's, but I couldn't get them to work
+  I originally tried to use indexs', but I couldn't get them to work
   so this was the next best thing I could think of.
 =end
 
   x = 0
   for i,j in menu
     if x == item.to_i - 1
-      $currentReciept.itemTotal += j.to_f
-      $currentReciept.receipt.append(i)
+      $currentReciept.AddTotal(j.to_f)
+      $currentReciept.AppendReciept(i)
     end
     x += 1
   end
